@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 import com.nttdata.mongosecurity.domain.User;
 import com.nttdata.mongosecurity.service.UserMongoService;
 
-@Component
+//@Component
 public class MongoAuthProvider implements AuthenticationProvider {
 
 	@Autowired
