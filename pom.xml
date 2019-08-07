@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.nttdata</groupId>
-	<artifactId>mongosecurity</artifactId>
+	<artifactId>springsecurityjwt</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>mongosecurity</name>
+	<name>springsecurityjwt</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -30,6 +30,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
 		</dependency>
 
 		<dependency>

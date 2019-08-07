@@ -1,13 +1,16 @@
-package com.nttdata.mongosecurity.domain;
+package com.nttdata.springsecurityjwt.domain;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Document(collection = "authentication")
 public class User {
 
+	@JsonIgnore
 	@Id
 	private ObjectId id;
 

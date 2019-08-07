@@ -1,6 +1,7 @@
-package com.nttdata.mongosecurity.security;
+package com.nttdata.springsecurityjwt.security;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.nttdata.mongosecurity.service.UserMongoService;
+import com.nttdata.springsecurityjwt.service.UserMongoService;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -26,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    	com.nttdata.mongosecurity.domain.User user;
+    	com.nttdata.springsecurityjwt.domain.User user;
     	try {
 			user = userMongoService.getUser(username);
 			if (user==null) {
@@ -38,14 +39,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     	return buildUserFromUserEntity(user);
     }
 
-	private UserDetails buildUserFromUserEntity(com.nttdata.mongosecurity.domain.User user) {
+	private UserDetails buildUserFromUserEntity(com.nttdata.springsecurityjwt.domain.User user) {
         // convert model user to spring security user
         String username               = user.getUser();
         String password               = passwordEncoder.encode(user.getPassword());
         boolean enabled               = true;
-        boolean accountNonExpired     = true;
-        boolean credentialsNonExpired = true;
-        boolean accountNonLocked      = true;
         
         //Currently hardcoding as ADMIN role, need to fetch from database the role of the user
         //and accordingly set the permissions.
@@ -53,12 +51,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_ADMIN");
         authorities.add(authority);
 
-        return new User(username, 
-                                   password, 
-                                   enabled,
-                                   accountNonExpired, 
-                                   credentialsNonExpired, 
-                                   accountNonLocked,
-                                   authorities);
+        return new JwtUser(username, password, user, authorities, enabled);
 	}
 }

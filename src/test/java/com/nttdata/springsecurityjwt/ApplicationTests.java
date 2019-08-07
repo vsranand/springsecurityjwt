@@ -1,4 +1,4 @@
-package com.nttdata.mongosecurity;
+package com.nttdata.springsecurityjwt;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
