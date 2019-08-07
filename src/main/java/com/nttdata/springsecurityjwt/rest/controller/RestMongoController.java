@@ -1,6 +1,5 @@
 package com.nttdata.springsecurityjwt.rest.controller;
 
-import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -53,19 +53,16 @@ public class RestMongoController {
 	}
 
     @GetMapping("/admin")
-    @RolesAllowed({"ROLE_ADMIN"})
-    public String hasRole() {
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+    public String hasAdminRole() {
         return "Hello, I am admin!";
     }
 
-	@GetMapping("/logout")
-	public String doLogout(HttpServletRequest request, HttpServletResponse response) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null){    
-			new SecurityContextLogoutHandler().logout(request, response, auth);
-		}
-		SecurityContextHolder.getContext().setAuthentication(null);
-		return "Logout";
-	}
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public String hasUserRole() {
+        return "Hello, I am user!";
+    }
+
 
 }
