@@ -42,7 +42,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private UserDetails buildUserFromUserEntity(com.nttdata.springsecurityjwt.domain.User user) {
         // convert model user to spring security user
         String username               = user.getUser();
-        String password               = passwordEncoder.encode(user.getPassword());
+        //String password               = passwordEncoder.encode(user.getPassword());
+        String password               = user.getPassword();
         boolean enabled               = true;
         
         //Currently hardcoding as ADMIN role, need to fetch from database the role of the user

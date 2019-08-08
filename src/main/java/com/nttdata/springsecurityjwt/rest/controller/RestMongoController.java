@@ -12,7 +12,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +23,7 @@ import com.nttdata.springsecurityjwt.exception.UnauthorizedException;
 import com.nttdata.springsecurityjwt.model.UserDTO;
 import com.nttdata.springsecurityjwt.security.JwtTokenUtil;
 import com.nttdata.springsecurityjwt.security.JwtUser;
+import com.nttdata.springsecurityjwt.service.UserMongoService;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -37,6 +37,15 @@ public class RestMongoController {
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
+
+	@Autowired
+	private UserMongoService userMongoService;
+
+	@PostMapping(value="/createUser")
+	public String createUser(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+		userMongoService.createUser(user);
+		return "User Created successfully";
+	}
 
 	@PostMapping(value="/login")
 	public ResponseEntity<UserDTO> doLogin(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
