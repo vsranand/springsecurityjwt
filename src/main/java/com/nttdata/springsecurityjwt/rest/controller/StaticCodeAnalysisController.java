@@ -36,5 +36,10 @@ public class StaticCodeAnalysisController {
 		return applicationScanDetailsService.getAnalysis(applicationName);
 	}
 
+	@PostMapping(value="/startAnalysis")
+	public String startAnalysis(@RequestParam String applicationName) {
+		applicationScanDetailsService.startAnalysis(applicationName);
+		return "Analysis Started successfully";
+	}
 
 }
