@@ -42,4 +42,11 @@ public class StaticCodeAnalysisController {
 		return "Analysis Started successfully";
 	}
 
+	@GetMapping(value="/findByNoOfProblems")
+	public AnalysisCollection findAnalysis(@RequestParam Long noOfProblems) {
+		AnalysisCollection collection = new AnalysisCollection();
+		collection.setAnalysisList(applicationScanDetailsService.findByNoOfProblems(noOfProblems));
+		return collection;
+	}
+
 }

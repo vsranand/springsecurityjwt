@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.nttdata.springsecurityjwt.domain.Analysis;
 import com.nttdata.springsecurityjwt.repository.ApplicationScanDetailsRepository;
@@ -15,14 +16,17 @@ public class ApplicationScanDetailsServiceImpl {
 	@Autowired
 	private ApplicationScanDetailsRepository applicationScanDetailsRepository;
 
+	@Transactional
 	public void createAnalysis(Analysis analysis) {
 		applicationScanDetailsRepository.save(analysis);
 	}
 
+	@Transactional
 	public void createAnalysis(List<Analysis> analysisList) {
 		applicationScanDetailsRepository.saveAll(analysisList);
 	}
 
+	@Transactional(readOnly = true)
 	public Analysis getAnalysis(String applicationName) {
 		return applicationScanDetailsRepository.findByApplicationName(applicationName);
 	}
@@ -41,6 +45,11 @@ public class ApplicationScanDetailsServiceImpl {
 			e.printStackTrace();
 		}
 		System.out.println("This is printed after 10 seconds");
+	}
+
+	@Transactional(readOnly = true)
+	public List<Analysis> findByNoOfProblems(Long noOfProblems) {
+		return applicationScanDetailsRepository.findByNoOfProblems(noOfProblems);
 	}
 
 }
